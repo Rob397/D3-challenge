@@ -107,7 +107,7 @@ xLabelsGroup.append("text")
         .attr("x", 0)
         .attr("y", 20)
         .attr("value", "income")
-        .text("Income ($)");
+        .text("Median Income ($)");
 
 yLabelsGroup.append("text")
         .classed("aText", true)
@@ -115,7 +115,7 @@ yLabelsGroup.append("text")
         .attr("x", -12)
         .attr("y", 20)
         .attr("value", "age")
-        .text("Age (Median)").attr("transform", "rotate(-90)");
+        .text("Median Age").attr("transform", "rotate(-90)");
 
 });
 
