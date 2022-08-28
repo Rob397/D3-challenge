@@ -10,9 +10,9 @@ d3.csv("data/data.csv").then(function(Data) {
 
   
 // set the dimensions and margins of the graph
-var margin = {top: 10, right: 35, bottom: 35, left: 65},
+var margin = {top: 35, right: 35, bottom: 45, left: 65},
     width = 800 - margin.left - margin.right,
-    height = 400 - margin.top - margin.bottom;
+    height = 450 - margin.top - margin.bottom;
 
 
 // append the svg object to the body of the page
@@ -40,103 +40,83 @@ d3.csv("data/data.csv").then(function(Data) {
   });
 
 
+
 // create scales
 // x scale
 var xScale = d3.scaleLinear()
-    .domain(d3.extent(Data, d => d.income))
+    .domain([d3.min(Data, d => d.income) * 0.92 , d3.max(Data, d => d.income * 1.15)])
     .range([0, width]);
 
 // scale for dependent (y) coordinates
   var yScale = d3.scaleLinear()
-  .domain([0, d3.max(Data, d => d.age)])
+  .domain([d3.min(Data, d => d.age) * 0.85, d3.max(Data, d => d.age *1.15)])
   .range([height, 0]);
 
+
+  // var bottomAxis = d3.axisBottom(xTimeScale);
+  // var leftAxis = d3.axisLeft(yLinearScale);
   // Append axes
-  // // Add X axis
-  //   svg.append("g")
-  //   .attr("transform", "translate(0," + height + ")")
-  //   .call(d3.axisBottom(x));
+  // Add X axis
+    svg.append("g")
+    .attr("transform", "translate(0," + height + ")")
+    .call(d3.axisBottom(xScale));
 
-  // // Add Y axis
-  // svg.append("g")
-  //   .call(d3.axisLeft(y));
+  // Add Y axis
+  svg.append("g")
+    .call(d3.axisLeft(yScale));
 
-  // Add circles
-  svg.append('g')
-    .selectAll("circle")
-    .data(Data)
-    .enter()
-    .append("circle")
-      .attr("cx", function (d) { return x(d.income); } )
-      .attr("cy", function (d) { return y(d.age); } )
-      .attr("r", 4)
-      .style("fill", "#69b3a2")
+// Add circles
+svg.append('g')
+  .selectAll("circle")
+  .data(Data)
+  .enter()
+  .append("circle")
+    .attr("cx", function (d) { return xScale(d.income); } )
+    .attr("cy", function (d) { return yScale(d.age); } )
+    .attr("r", 13)
+    .attr("fill", "blue")
+    .attr("stroke-width", "2")
+    .attr("opacity", 0.4);
+      // .style("fill", "#69b3a2")
+      
+// Create circle labels
+svg.selectAll(".stateText")
+.data(Data)
+.enter()
+.append("text")
+.classed("stateText", true)
+  .attr("cx", d => xScale(d.income))
+  .attr("cy", d => yScale(d.age))
+  .attr('dy', 3)
+  .attr("font-size", 12)
+  .text(d => d.abbr);
+
+
+// Append axes titles
+var xLabelsGroup = svg.append("g")
+.attr("transform", `translate(${width / 2}, ${height + margin.top/2})`);
+
+var yLabelsGroup = svg.append("g")
+.attr("transform", `translate(${margin.left/20}, ${-25})`);
+
+
+xLabelsGroup.append("text")
+        .classed("aText", true)
+        .classed("active", true)
+        .attr("x", 0)
+        .attr("y", 20)
+        .attr("value", "income")
+        .text("Income ($)");
+
+yLabelsGroup.append("text")
+        .classed("aText", true)
+        .classed("active", true)
+        .attr("x", -12)
+        .attr("y", 20)
+        .attr("value", "age")
+        .text("Age (Median)");
 
 });
 
-      // // Add circles
-      // var circlesGroup = chartGroup.selectAll("circle")
-      //   .data(Data)
-      //   .enter()
-      //   .append("circle")
-      //   .attr("cx", d => xScale(d.income))
-      //   .attr("cy", d => yScale(d.age))
-      //   .attr("r", "10")
-      //   .attr("fill", "blue")
-      //   .attr("stroke-width", "1")
-      //   .attr("stroke", "black");
-
-
-// append circles
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// function xMinMax() {
-//     // min will grab the smallest datum from the selected column.
-//     xMin = d3.min(theData, function(d) {
-//       return parseFloat(d[curX]) * 0.90;
-//     });
-
-//     // .max will grab the largest datum from the selected column.
-//     xMax = d3.max(theData, function(d) {
-//       return parseFloat(d[curX]) * 1.10;
-//     });
-//   }
-
-//   // b. change the min and max for y
-//   function yMinMax() {
-//     // min will grab the smallest datum from the selected column.
-//     yMin = d3.min(theData, function(d) {
-//       return parseFloat(d[curY]) * 0.90;
-//     });
-
-//     // .max will grab the largest datum from the selected column.
-//     yMax = d3.max(theData, function(d) {
-//       return parseFloat(d[curY]) * 1.10;
-//     });
-//   }
-
-
-// We append the circles for each row of data (or each state, in this case).
 
 
