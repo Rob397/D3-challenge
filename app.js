@@ -98,7 +98,7 @@ var xLabelsGroup = svg.append("g")
 .attr("transform", `translate(${width / 2}, ${height + margin.top/2})`);
 
 var yLabelsGroup = svg.append("g")
-.attr("transform", `translate(${margin.left/20}, ${-25})`);
+.attr("transform", `translate(${-50}, ${height/2})`);
 
 
 xLabelsGroup.append("text")
@@ -115,7 +115,7 @@ yLabelsGroup.append("text")
         .attr("x", -12)
         .attr("y", 20)
         .attr("value", "age")
-        .text("Age (Median)");
+        .text("Age (Median)").attr("transform", "rotate(-90)");
 
 });
 
