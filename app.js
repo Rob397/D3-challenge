@@ -79,17 +79,18 @@ svg.append('g')
     .attr("opacity", 0.4);
       // .style("fill", "#69b3a2")
       
-// Create circle labels
-svg.selectAll(".stateText")
-.data(Data)
-.enter()
-.append("text")
-.classed("stateText", true)
-  .attr("cx", d => xScale(d.income))
-  .attr("cy", d => yScale(d.age))
-  .attr('dy', 3)
-  .attr("font-size", 12)
-  .text(d => d.abbr);
+  // Create circle labels
+  svg
+    .selectAll(".stateText")
+    .data(Data)
+    .enter()
+    .append("text")
+    .classed("stateText", true)
+    .attr("x", (d) => xScale(d.income))
+    .attr("y", (d) => yScale(d.age))
+    .attr("dy", 3)
+    .attr("font-size", 12)
+    .text((d) => d.abbr);
 
 
 // Append axes titles
